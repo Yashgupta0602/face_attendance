@@ -2,10 +2,10 @@ import sqlite3
 print("🚀 database.py started")
 
 def setup_database():
-    conn = sqlite3.connect("backend/students.db")  # inside backend/
+    conn = sqlite3.connect("backend/students.db")  
     cursor = conn.cursor()
 
-    # Students table
+    
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS students (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -15,7 +15,7 @@ def setup_database():
         )
     """)
 
-    # Attendance table
+    
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS attendance (
             id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -5,20 +5,20 @@ import sqlite3
 import os
 import sys
 
-# ================== CONFIG ==================
+
 DB_PATH = "backend/students.db"
 ENCODINGS_PATH = "detector/encodings.pickle"
 
 
 def add_student(name, roll_no, image_path=None):
-    # ================== Load Existing Encodings ==================
+    
     if os.path.exists(ENCODINGS_PATH):
         with open(ENCODINGS_PATH, "rb") as f:
             encodings, names = pickle.load(f)
     else:
         encodings, names = [], []
 
-    # ================== Capture or Load Image ==================
+    
     if image_path:
         image = cv2.imread(image_path)
     else:
@@ -33,7 +33,7 @@ def add_student(name, roll_no, image_path=None):
         cap.release()
         cv2.destroyAllWindows()
 
-    # ================== Encode Face ==================
+    
     rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     boxes = face_recognition.face_locations(rgb)
     encs = face_recognition.face_encodings(rgb, boxes)
@@ -45,12 +45,12 @@ def add_student(name, roll_no, image_path=None):
     encodings.append(encs[0])
     names.append(name)
 
-    # Save updated encodings
+    
     with open(ENCODINGS_PATH, "wb") as f:
         pickle.dump((encodings, names), f)
     print(f"✅ Encoding saved for {name}")
 
-    # ================== Update Database ==================
+    
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute(
